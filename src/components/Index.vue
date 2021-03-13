@@ -1,15 +1,33 @@
 <template>
-  
+
   <div class="">
 
-    <div class="uppercase text-center text-white mx-auto text-6xl">
-      ABOUT JIDE ILORI
+    <div :class="`uppercase text-center text-white mx-auto text-6xl`">
+      MACHINE LEARNING ENGINEER
     </div>
 
-    <div class="text-center text-2xl text-white px-4 py-12 mx-auto">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus similique dolor necessitatibus ipsum facilis! Ullam error in, cum ea sapiente hic suscipit quisquam ab doloremque optio accusamus reprehenderit quia eius.
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus similique dolor necessitatibus ipsum facilis! Ullam error in, cum ea sapiente hic suscipit quisquam ab doloremque optio accusamus reprehenderit quia eius.
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus similique dolor necessitatibus ipsum facilis! Ullam error in, cum ea sapiente hic suscipit quisquam ab doloremque optio accusamus reprehenderit quia eius.
+    <div class="flex justify-center text-white p-4 py-12">
+
+      <router-link to="/projects/python" class="bg-blue-500 bg-opacity-85 px-4 py-3 border-4 border-white mx-4 rounded-lg">
+        <i class="fab fa-python mx-auto text-2xl"></i>
+        <div class="mt-2">PYTHON</div>
+      </router-link>
+
+      <router-link to="/projects/matlab" class="bg-green-600 px-4 py-3 border-4 border-white mx-4 rounded-lg">
+        <i class="fa fa-laptop-code mx-auto text-2xl"></i>
+        <div class="mt-2">MATLAB</div>
+      </router-link>
+
+      <router-link to="/projects/machine-learning" class="bg-red-400 px-4 py-3 border-4 border-white mx-4 rounded-lg">
+        <i class="fa fa-bezier-curve mx-auto text-2xl"></i>
+        <div class="mt-2">MACHINE LEARNING</div>
+      </router-link>
+
+      <!-- <router-link @click="setThemeColor('red')" :color="theme.color" to="/projects/:props" class="bg-purple-400 px-4 py-3 border-4 border-white mx-4 rounded-lg">
+        <i class="fa fa-chart-bar mx-auto text-2xl"></i>
+        <div class="mt-2">PROJECTS</div>
+      </router-link> -->
+
     </div>
 
     <div class="flex justify-center p-4">
@@ -42,7 +60,8 @@
 
 <script>
   export default {
-    name: 'About',
+    name: 'Home',
+    emits: ['setColor'],
     props: {
       color: String
     },
