@@ -1,48 +1,28 @@
-<template>
-  
-  <div class="">
-
-    <div class="uppercase text-center text-white mx-auto text-6xl">
-      ABOUT JIDE ILORI
-    </div>
-
-    <div class="text-center text-2xl text-white px-4 py-12 mx-auto">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus similique dolor necessitatibus ipsum facilis! Ullam error in, cum ea sapiente hic suscipit quisquam ab doloremque optio accusamus reprehenderit quia eius.
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus similique dolor necessitatibus ipsum facilis! Ullam error in, cum ea sapiente hic suscipit quisquam ab doloremque optio accusamus reprehenderit quia eius.
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus similique dolor necessitatibus ipsum facilis! Ullam error in, cum ea sapiente hic suscipit quisquam ab doloremque optio accusamus reprehenderit quia eius.
-    </div>
-
-    <div class="flex justify-center p-4">
-      
-      <a href="#" class="flex justify-center items-center rounded-full bg-white text-black shadow h-12 w-12 mx-4">
-        <i class="fab fa-github text-2xl"></i>
-      </a>
-      
-      <a href="#" class="flex justify-center items-center rounded-full bg-blue-500 text-white shadow h-12 w-12 mx-4">
-        <i class="fab fa-linkedin text-2xl"></i>
-      </a>
-
-      <a href="#" class="flex justify-center items-center rounded-full bg-blue-400 text-white shadow h-12 w-12 mx-4">
-        <i class="fab fa-twitter text-2xl"></i>
-      </a>
-
-      <a href="#" class="flex justify-center items-center rounded-full bg-red-400 text-white shadow h-12 w-12 mx-4">
-        <i class="fa fa-envelope text-2xl"></i>
-      </a>
-
-      <a href="#" class="flex justify-center items-center rounded-full bg-blue-400 text-white shadow h-12 w-12 mx-4">
-        <i class="fab fa-medium-m text-2xl"></i>
-      </a>
-
-    </div>
-   
+<template>  
+  <div>
+    <MainSectionTitle align="text-center" title-text="ABOUT JIDE ILORI" />
+    <TextContainer :text-content="text" />
+    <SocialHandles />   
   </div>
-
 </template>
 
 <script>
+
+  import MainSectionTitle from '../shared/MainSectionTitle'
+  import TextContainer from '../shared/TextContainer'
+  import SocialHandles from '../shared/SocialHandles'
+
   export default {
     name: 'About',
+    components: { MainSectionTitle, TextContainer, SocialHandles },
+    data() {
+      return {
+        text: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus similique dolor necessitatibus ipsum facilis! Ullam error in, cum ea sapiente hic suscipit quisquam ab doloremque optio accusamus reprehenderit quia eius.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus similique dolor necessitatibus ipsum facilis! Ullam error in, cum ea sapiente hic suscipit quisquam ab doloremque optio accusamus reprehenderit quia eius.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus similique dolor necessitatibus ipsum facilis! Ullam error in, cum ea sapiente hic suscipit quisquam ab doloremque optio accusamus reprehenderit quia eius.
+        `
+      }
+    },
     props: {
       color: String
     },

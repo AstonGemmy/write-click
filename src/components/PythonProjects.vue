@@ -1,48 +1,40 @@
-<template>
-  
-  <div class="">
-
-    <div class="uppercase text-white mx-auto text-6xl">
-      <i class="fab fa-python mx-auto lg:mr-4"></i> PYTHON PROJECTS
-    </div>
-
+<template>  
+  <div>
+    <MainSectionTitle icon="fab fa-python" title-text="PYTHON PROJECTS" />
     <div class="grid grid-flow-cols grid-cols-4 gap-y-8 justify-center text-white py-12">
-
-        <div :class="`relative grid grid-flow-rows grid-cols-1 items-stretch overflow-hidden bg-${color}-500 mx-auto lg:mr-4 rounded-lg`">
-            <div class="absolute top-0 left-0 px-2 py-1 text-sm rounded-br-xl bg-green-600 text-white">
-                Completed
-            </div>
-            <img src="/images/cover pictures/desktop-in-office.jpg" class="max-h-64 flex items-start p-0 w-full overflow-hidden" alt="Matlab Project One">
-            <p class="relative row-span-1 px-4 py-3 text-white">
-                This is a simple data science project for visualizing effects by a computer for the purpose of...men i don't know wtf to write here anymore.
-            </p>
-            <h3 class="flex items-end uppercase relative row-span-1 px-4 py-3">
-                Data Analysis App
-            </h3>
-        </div>
-
-        <div :class="`relative grid grid-flow-rows grid-cols-1 items-stretch overflow-hidden bg-${color}-500 mx-auto lg:mr-4 rounded-lg`">
-            <div class="absolute top-0 left-0 px-2 py-1 text-sm rounded-br-xl bg-red-400 text-white">
-                Pending
-            </div>
-            <img src="/images/cover pictures/desktop-in-office.jpg" class="max-h-64 flex items-start p-0 w-full overflow-hidden" alt="Matlab Project One">
-            <p class="relative row-span-1 px-4 py-3 text-white">
-                This is a simple data science project for visualizing effects by a computer for the purpose of...men i don't know wtf to write here anymore.
-            </p>
-            <h3 class="flex items-end uppercase relative row-span-1 px-4 py-3">
-                Data Analysis App
-            </h3>
-        </div>
-
+      <ProjectCard v-for="project in projects" :key="project.id" :page-theme-color="color" :project="project" />
     </div>
-
   </div>
-
 </template>
 
 <script>
+
+  import MainSectionTitle from '../shared/MainSectionTitle'
+  import ProjectCard from '../shared/ProjectCard'
+
   export default {
     name: 'Python Projects',
+    components: { MainSectionTitle, ProjectCard },
+    data() {
+      return {
+        projects: [
+          {
+            id: "app_one",
+            title: "Data Analysis App 1",
+            src: "/images/cover pictures/desktop-in-office.jpg",
+            status: "completed",
+            content: `This is a simple data science project for visualizing effects by a computer for the purpose of...men i don't know wtf to write here anymore.`
+          },
+          {
+            id: "app_two",
+            title: "Data Analysis App 2",
+            src: "/images/cover pictures/desktop-in-office.jpg",
+            status: "pending",
+            content: `This is a simple data science project for visualizing effects by a computer for the purpose of...men i don't know wtf to write here anymore.`
+          }
+        ]
+      }
+    },
     props: {
       color: String
     },
