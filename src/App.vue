@@ -1,14 +1,14 @@
 <template>  
-  <div class="relative bg-main bg-fixed bg-position-5/5 bg-no-repeat">    
-    <div class="relative grid grid-rows-5 bg-black bg-opacity-75 items-stretch min-h-screen">
+  <div class="relative w-full bg-main bg-fixed bg-no-repeat">
+    <div class="flex flex-col h-screen overflow-y-scroll items-between relative w-full bg-black bg-opacity-75 mx-auto">
       <Header :page-theme-color="color" />
-      <div class="relative row-span-5">
-        <div :class="`px-32 pt-56 bg-gradient-to-b from-${color}-600 to-transparent`">
-          <router-view @setColor="setColor" class="relative" />
+      <div :class="addThemeGradientColor" class="flex flex-col justify-between relative w-full pt-32 lg:pt-56 bg-gradient-to-b to-transparent h-full">
+        <div class="relative w-full px-8 lg:px-32">
+          <router-view @setColor="setColor"></router-view>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </div>    
   </div>
 </template>
 
@@ -20,8 +20,13 @@
   export default {
     name: 'App',
     components: { Header, Footer },
+    computed: {
+      addThemeGradientColor() {
+        return this.color ? `from-${this.color}-600` : ''
+      }
+    },
     props: {
-      pageThemeColor: String
+      pageThemeColor: String,
     },
     data() {
       return {

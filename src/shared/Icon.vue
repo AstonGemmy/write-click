@@ -1,5 +1,5 @@
 <template>
-    <i :class="icon" class="mx-auto lg:mr-4"></i>
+    <i :class="[ icon ? icon : '' ]" class="mx-auto lg:mr-4"></i>
 </template>
 
 <script>

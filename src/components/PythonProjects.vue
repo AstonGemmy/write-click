@@ -1,7 +1,7 @@
 <template>  
   <div>
-    <MainSectionTitle icon="fab fa-python" title-text="PYTHON PROJECTS" />
-    <div class="grid grid-flow-cols grid-cols-4 gap-y-8 justify-center text-white py-12">
+    <MainSectionTitle fa-icon="fab fa-python" title-text="PYTHON PROJECTS" />
+    <div class="grid grid-flow-cols grid-cols-1 lg:grid-cols-4 gap-y-8 justify-center text-white py-12">
       <ProjectCard v-for="project in projects" :key="project.id" :page-theme-color="color" :project="project" />
     </div>
   </div>
