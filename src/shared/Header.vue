@@ -1,6 +1,6 @@
 <template>  
   <div id="header" :class="addThemeBGColor" class="fixed left-0 z-50 top-0 flex w-full py-4 px-8 lg:px-32 items-center justify-between">
-    <router-link class="flex justify-center text-white items-center p-4 uppercase text-xl" to="/index">
+    <router-link class="flex justify-center text-white items-center p-4 uppercase text-xl" to="/">
       Jide Ilori
     </router-link>
     <div @click="toggleNavBar" class="lg:hidden w-10 h-10 flex justify-center items-center rounded-full text-white">
