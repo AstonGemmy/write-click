@@ -2,7 +2,8 @@
   <div>
     <MainSectionTitle align="text-center" title-text="ABOUT JIDE ILORI" />
     <TextContainer :text-content="text" />
-    <SocialHandles />   
+    <SocialHandles />
+    
   </div>
 </template>
 
