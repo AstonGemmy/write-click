@@ -8,7 +8,7 @@ import MachineLearning from '../components/MachineLearningProjects.vue';
 
 const routes = [
   {
-    path: "/",
+    path: "/index",
     name: "Home",
     component: Home,
     props: {
