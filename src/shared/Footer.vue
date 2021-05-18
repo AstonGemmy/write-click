@@ -1,13 +1,9 @@
 <template>
-  <div class="relative flex items-start h-auto w-full px-4 py-4 text-white justify-between">
-    <div class="flex justify-center items-center p-4 uppercase text-xl mx-auto">
-      Copyright {{ new Date().getFullYear() }}
+    <div class="relative w-full p-4 md:px-16">
+        <div class="relative flex w-full p-4 justify-center items-start">
+            <div class="mx-auto md:mx-0 py-4 text-center text-sm">
+                Copyright <span>&copy;</span> Career strive <span>{{ new Date().getFullYear() }}</span>
+            </div>
+        </div>
     </div>
-  </div>    
 </template>
-
-<script>
-  export default {
-    name: 'Footer'
-  }
-</script>

@@ -1,0 +1,68 @@
+[
+    {
+        "id": 1,
+        "question": "What is the name of Facebook's CEO?",
+        "options": [
+            "Mark Joe",
+            "John Doe",
+            "Mark Zuckerberg",
+            "Rango Stark",
+            "None of the above"
+        ]
+    },
+    {
+        "id": 2,
+        "question": "Who is Jeff Bezos?",
+        "options": [
+            "Web Developer",
+            "Freelancer",
+            "Software Engineer",
+            "Owner of Amazon",
+            "None of the above"
+        ]
+    },
+    {
+        "id": 3,
+        "question": "Which of these has the largest users database currently?",
+        "options": [
+            "Facebook",
+            "Google LLC",
+            "Amazon",
+            "Twitter",
+            "None of the above"
+        ]
+    },
+    {
+        "id": 4,
+        "question": "What is the current president of the United States of America?",
+        "options": [
+            "Donald Trump",
+            "Biden Moe",
+            "George Bush",
+            "Joe Biden",
+            "None of the above"
+        ]
+    },
+    {
+        "id": 5,
+        "question": "What is the square root of 49?",
+        "options": [
+            23.5,
+            9.4,
+            7.0,
+            5,
+            "None of the above"
+        ]
+    },
+    {
+        "id": 6,
+        "question": "What best describes CSS?",
+        "options": [
+            "Design Tool",
+            "Hardware Programming Language",
+            "Machine Learning Stack Language",
+            "A pack of Colours and Motion",
+            "None of the above"
+        ]
+    }
+]

@@ -1,81 +1,60 @@
-<template>  
-  <div id="header" :class="addThemeBGColor" class="fixed left-0 z-50 top-0 flex w-full py-4 px-8 lg:px-32 items-center justify-between">
-    <router-link class="flex justify-center text-white items-center p-4 uppercase text-xl" to="/">
-      Jide Ilori
-    </router-link>
-    <div @click="toggleNavBar" class="lg:hidden w-10 h-10 flex justify-center items-center rounded-full text-white">
-      <i class="fa fa-bars"></i>
-    </div>
-    <div @click="setActiveRoute" :class="addToggleAttributes" class="text-center lg:text-left flex flex-col lg:flex-row fixed left-0 lg:relative w-full lg:w-auto items-start lg:items-center lg:justify-center lg:justify-between text-white">
-        <router-link to="/about" :class="addThemeHoverBGColor500" class="w-full lg:w-auto relative px-8 py-4">About Me</router-link>
-        <router-link to="/contact" :class="addThemeHoverBGColor500" class="w-full lg:w-auto relative px-8 py-4">Contact</router-link>
-        <div @click="toggleDropDown" :class="addThemeHoverBGColor500" class="relative w-full lg:w-auto flex flex-col cursor-pointer">
-          <span class="relative px-8 py-4">Project</span>
-          <span v-if="showDropDown" :class="dropMenuBGColor" class="w-full relative lg:absolute top-auto lg:top-14 left-auto lg:left-2/4 transform -translate-none lg:-translate-x-2/4 flex flex-col">
-            <router-link to="/projects/python" :class="addThemeHoverBGColor600" class="w-full lg:pl-4 py-2">Python</router-link>
-            <router-link to="/projects/matlab" :class="addThemeHoverBGColor600" class="w-full lg:pl-4 py-2">Matlab</router-link>
-            <router-link to="/projects/machine-learning" :class="addThemeHoverBGColor600" class="w-full lg:pl-4 py-2">Machine Learning</router-link>
-          </span>
-        </div>
-    </div>
-  </div>
+<template>
+	<div class="sticky top-0 z-50 md:px-8 lg:py-4 m-0 bg-black md:bg-transparent">
+		<div class="relative flex flex-col lg:flex-row w-full lg:justify-between lg:items-center">
+			<div class="relative w-full lg:w-auto bg- px-4 ml-0 lg:ml-16 z-50 flex justify-between items-center">
+				<router-link to="/" class="text-2xl lg:text-3xl text-pink-800 px-0 pt-5 pb-3 lg:p-4 font-bold">
+					<span class="">Write Click</span>
+				</router-link>
+				<div @click="toggleNavbar" class="lg:hidden rounded-full flex justify-center items-center w-12 h-12 text-pink-800">
+					<i class="fas fa-bars text-3xl transform scale-y-75"></i>
+				</div>
+			</div>
+			<div :class="mobileNavbarToggler" class="px-8 md:px-4 py-8 md:py-4 transition-translate ease-in-out duration-500 transform lg:translate-y-0 absolute left-0 lg:relative bg-black md:bg-transparent lg:flex w-full lg:w-auto lg:mr-16">
+				<div class="flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between uppercase text-white">
+					<router-link to="/profile" class="w-full lg:w-auto bg-pink-800 rounded-md text-center py-2 px-4 my-2 lg:my-0 lg:mr-4">
+						Username
+					</router-link>
+					<a href="#" class="w-full lg:w-auto bg-pink-800 rounded-md text-center py-2 px-4 my-2 lg:my-0 lg:mr-4">Logout</a>
+					<router-link to="/authenticate" class="w-full lg:w-auto bg-pink-800 rounded-md text-center py-2 px-4 my-2 lg:my-0 lg:mr-4">Login</router-link>
+				</div>				
+			</div>			
+		</div>		
+	</div>
 </template>
 
 <script>
+  
+//   import { mapState, mapGetters, mapActions } from 'vuex'
 
-  export default {
-    name: 'Header',
-    props: ['page-theme-color'],
-    computed: {
-      addThemeBGColor() {
-        return this.pageThemeColor ? `bg-${this.pageThemeColor}-700` : ''
-      },
-      dropMenuBGColor() {
-        return `bg-${this.pageThemeColor}-800`
-      },
-      addToggleAttributes() {
-        return this.navBarIsOpen ? `bottom-0 bg-${this.pageThemeColor}-800` : '-bottom-full'
-      },
-      addThemeHoverBGColor500() {
-        return `hover:bg-${this.pageThemeColor}-500`
-      },
-      addThemeHoverBGColor600() {
-        return `hover:bg-${this.pageThemeColor}-600`
-      }
-    },
-    data() {
-      return {
-        showDropDown: false,
-        navBarIsOpen: false
-      }
-    },
-    methods: {
-      setActiveRoute(e) {
-        if (e.target.className.includes(`bg-${this.pageThemeColor}-500`)) {
-          e.target.classList.add(`bg-${this.pageThemeColor}-500`)
-        } else {
-          e.target.classList.remove(`bg-${this.pageThemeColor}-500`)
-        }
-        if (e.target.nodeName.toLowerCase() == 'a') {
-          this.closeNavbar()
-        }
-      },
-      toggleDropDown() {
-        this.showDropDown = !this.showDropDown
-      },
-      toggleNavBar() {
-        this.navBarIsOpen = !this.navBarIsOpen
-      },
-      closeNavbar() {
-        this.navBarIsOpen = false
-      }
-    },
-    created() {
-      window.addEventListener('resize', this.closeNavbar)
-    },
-    unmount() {
-      window.removeEventListener('resize', this.closeNavbar)
-    }
-  }
+	export default {
+
+		data() {
+			return {
+				navbarIsOpen: true
+			}
+		},
+
+		computed: {
+		//   ...mapState([
+			// 'authUser',
+			// 'loginState'
+		//   ]),
+		//   ...mapGetters([
+		// 	'getAuthUserFirstname'
+		//   ]),
+			mobileNavbarToggler() {
+				return this.navbarIsOpen ? '-translate-y-full' : 'translate-y-16'
+			}
+		},
+
+		methods: {
+		//   ...mapActions([
+			// 'logoutUser'
+		//   ]),
+			toggleNavbar() {
+				this.navbarIsOpen = !this.navbarIsOpen
+			}
+		}
+	}
 
 </script>

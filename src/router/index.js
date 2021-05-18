@@ -1,64 +1,24 @@
-import { createWebHistory, createRouter } from 'vue-router';
-import Home from '../components/Index.vue';
-import About from '../components/About.vue';
-import Contact from '../components/Contact.vue';
-import Matlab from '../components/MatlabProjects.vue';
-import Python from '../components/PythonProjects.vue';
-import MachineLearning from '../components/MachineLearningProjects.vue';
+import { createWebHashHistory, createRouter } from 'vue-router';
+
+import Home from '../pages/Index.vue';
+import AssessmentPortal from '../pages/AssessmentPortal.vue';
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
-    props: {
-      color: 'blue'
-    }
+    component: Home
   },
   {
-    path: "/about",
-    name: "About",
-    component: About,
-    props: {
-      color: 'blue'
-    }
-  },
-  {
-    path: "/contact",
-    name: "Contact",
-    component: Contact,
-    props: {
-      color: 'blue'
-    }
-  },
-  {
-    path: "/projects/matlab",
-    name: "Matlab",
-    component: Matlab,
-    props: {
-      color: 'green'
-    }
-  },
-  {
-    path: "/projects/python",
-    name: "Python",
-    component: Python,
-    props: {
-      color: 'blue'
-    }
-  },
-  {
-    path: "/projects/machine-learning",
-    name: "MachineLearning",
-    component: MachineLearning,
-    props: {
-      color: 'red'
-    }
-  },
+    path: "/assessment-portal",
+    name: "AssessmentPortal",
+    component: AssessmentPortal
+  }
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
+  base: '/',
   routes,
 });
 

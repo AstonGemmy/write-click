@@ -1,5 +1,5 @@
 <template>
-    <p class="lg:text-center text-2xl text-white px-4 py-12 mx-auto">
+    <p class="text-sm lg:text-2xl text-white p-4 lg:py-12 mx-auto">
       {{ textContent }}
     </p>
 </template>
