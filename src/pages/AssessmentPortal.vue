@@ -17,14 +17,15 @@
         <ToggleLeftSideBar @toggle="toggleSideBar" />
         <ToggleRightSideBar @toggle="toggleSideBar" />
         
-        <div class="relative h-full pb-16">
+        <form method="post" @submit.prevent="confirmSubmission" class="relative h-full pb-16">
           <div class="relative invisible-scrollbar overflow-y-auto h-full">
             <div class="sticky top-0 z-10 mb-4 mx-1 bg-white rounded-xl overflow-hidden shadow">
               <div class="flex items-center justify-between py-4 px-8 bg-white shadow">
                 <h1 class="text-xl font-bold text-blue-600">
+                  <!-- Name of Assessment -->
                   {{ assessment.subject }}
                 </h1>
-                <AssessmentProgress :questions="assessment.questions" :answers="assessment.answers" :progress="assessment.progress" />
+                <AssessmentProgress v-if="assessment.questions" :questions="assessment.questions" :answers="assessment.answers" :progress="assessment.progress" />
               </div>
               <Timer>
                 <CountdownTimer :payload="assessment.timer" />
@@ -32,17 +33,15 @@
               </Timer>            
             </div>
             <!-- Question and Options Grid -->
-            <AssessmentInterface @setAnswers="setAnswers" :assessment="assessment" />
+            <AssessmentInterface v-if="assessment.questions" @setAnswers="setAnswers" :assessment="assessment" />
           </div>
           <!-- Submit button -->
           <div v-if="assessment.questions" class="absolute bottom-0 w-full z-10 bg-white rounded-xl overflow-hidden shadow">
             <div class="flex items-center justify-between py-2 px-8 bg-white shadow">
-              <button v-bind:disabled="assessment.submission_is_disabled" @click="setSubmissionConfirmationMessage" class="focus:outline-none focus:bg-gray-400 hover:bg-blue-800 ripple-node w-full md:w-auto text-xl bg-blue-600 px-6 pt-3 pb-2 rounded-xl font-bold uppercase text-blue-200">
-                Submit
-              </button>
-            </div>                            
+              <SubmitAssessmentButton :status="assessment.submission_is_disabled" @confirmSubmission="confirmSubmission" />
+            </div>
           </div>
-        </div>
+        </form>
       </div>
       <!-- Right Sidebar -->
       <RightSideBar :sidebar="sidebar">
@@ -53,21 +52,23 @@
 </template>
 
 <script>
-  import Instructions from '../shared/Instructions.vue'
-  import LeftSideBar from '../shared/LeftSideBar.vue'
-  import AppTitle from '../shared/AppTitle'
-  import CandidateAvatar from '../shared/CandidateAvatar'
-  import CandidateData from '../shared/CandidateData'
-  import ScoreLegend from '../shared/ScoreLegend'
-  import LogoutButton from '../shared/LogoutButton'
-  import RightSideBar from '../shared/RightSideBar.vue'
-  import ToggleLeftSideBar from '../shared/ToggleLeftSideBar.vue'
-  import ToggleRightSideBar from '../shared/ToggleRightSideBar.vue'
-  import Timer from '../shared/Timer'
+  import SubmitAssessmentButton from '../shared/SubmitAssessmentButton'
+  import AssessmentInterface from '../shared/AssessmentInterface'
+  import ToggleRightSideBar from '../shared/ToggleRightSideBar'
   import AssessmentProgress from '../shared/AssessmentProgress'
-  import CountdownTimer from '../shared/CountdownTimer.vue'
+  import ToggleLeftSideBar from '../shared/ToggleLeftSideBar'
+  import CandidateAvatar from '../shared/CandidateAvatar'
+  import CountdownTimer from '../shared/CountdownTimer'
+  import CandidateData from '../shared/CandidateData'
+  import LogoutButton from '../shared/LogoutButton'
   import TimerMessage from '../shared/TimerMessage'
-  import AssessmentInterface from '../shared/AssessmentInterface.vue'
+  import Instructions from '../shared/Instructions'
+  import RightSideBar from '../shared/RightSideBar'
+  import ScoreLegend from '../shared/ScoreLegend'
+  import LeftSideBar from '../shared/LeftSideBar'
+  import { mapActions, mapState } from 'vuex'
+  import AppTitle from '../shared/AppTitle'
+  import Timer from '../shared/Timer'
 
   export default {
     name: 'Assessment',
@@ -84,7 +85,7 @@
           time_allowed: '2 Hours'
         },
         assessment: {
-          questions: require('../Data/Questions.json'),
+          questions: null,
           answers: [],
           subject: 'General Mathematics',
           instructions: [
@@ -104,6 +105,7 @@
             duration: '2 Hours',
             remaining: "00:10",
             message: 'Enough time remaining!',
+            status: 'off'
           },
           progress: {
             answered: 0,
@@ -114,6 +116,12 @@
           
         }
       }
+    },
+
+    computed: {
+      ...mapState([
+        'confirmation_modal'
+      ])
     },
 
     components: {
@@ -131,71 +139,100 @@
       AssessmentProgress,
       CountdownTimer,
       TimerMessage,
-      AssessmentInterface
+      AssessmentInterface,
+        SubmitAssessmentButton
     },
 
     methods: {
-      toggleSideBar(payload) {
-        this.sidebar = {...payload}
+
+      ...mapActions([
+        'showModal',
+        'closeModal'
+      ]),
+      // Assessment initialization warning
+      initializationNotice(payload) {
+        this.setAssessmentNotice(payload).init()
+        this.showModal()
+      },
+      // Sets confirmation modal options based on notice type
+      setAssessmentNotice(payload) {
+        return {
+          // Type: Assessment is about to begin
+          init: () => {
+            [payload.source, payload.message, payload.heading, payload.action] = [
+              'init',
+              `You are about to begin your test and you have ${this.assessment.timer.remaining} minutes for this test. If you are ready, you can continue.`,
+              'Test Initialization Notice',
+              'Yes, I am ready'
+            ]
+          },
+          // Type: Assessment timer is off and submission happens automatically
+          autoSubmit: () => {
+            [payload.source, payload.message, payload.heading, payload.action] = [
+              'submit',
+              `Your time is up and test will be automatically submitted now.`,
+              'Auto Submission Notice',
+              ''
+            ]
+          },
+          // Type: All assessment questions have been answered and candidate isi about to submit
+          complete: () => {
+            [payload.source, payload.message, payload.heading, payload.closeable] = [
+              'submit',
+              'Are you sure you are ready to submit?',
+              'Test Submission Notice',
+              true
+            ]
+          },
+          // Type: All assessment questions have not been answered and candidate isi about to submit
+          incomplete: () => {
+            [payload.source, payload.message, payload.heading, payload.closeable] = [
+              'submit',
+              'You have not answered all questions, do wish to submit?',
+              'Test Submission Notice',
+              true
+            ]
+          }
+        }        
       },
 
+      fetchQuestions() {
+        this.assessment.questions = require('../Data/Questions.json')
+      },
+
+      startCountdown() {
+        this.assessment.timer.status = 'start'
+      },
+
+      resetCountdown() {
+        this.assessment.timer.status = 'reset'
+      },
+      // Update answer payload with currently selected answer
       setAnswers(payload) {
         this.assessment.answers = payload
       },
-
-      keyToProperFormat(key) {
-        if (key !== null) {
-          key = key.split('_');
-          key = key.map(word => { 
-            return word[0].toUpperCase() + word.slice(1);
-          }).join(" ");
-          return key
-        }
-      },
-
-      getProperFormat(value) {
-        if (value !== null) {
-          value = value.split(' ');
-          value = value.map(word => { 
-            return word[0].toUpperCase() + word.slice(1);
-          }).join(" ");
-          return value
-        }
-      },
-
-      setSubmissionConfirmationMessage() {          
-        this.confirmation_modal.heading = 'Test Submission Notice'
-        this.confirmation_modal.source = 'submit'
-        this.confirmation_modal.closeable = true
+      
+      confirmSubmission() {
         if (this.assessment.all_questions_answered) {
-            this.confirmation_modal.message = 'Are you sure you are ready to submit?'
+          this.setAssessmentNotice(this.confirmation_modal).complete()
         } else {
-            this.confirmation_modal.message = 'You have not answered all questions, do wish to submit?'
+          this.setAssessmentNotice(this.confirmation_modal).incomplete()
         }
         this.showModal()
       },
-
-      submitTest() {          
+      // Disable submit button once assessment is submitted
+      disableSubmission() {
         this.assessment.submission_is_disabled = true
-        clearTimeout(this.assessment.timer_loop);  // Clear timeout for counter
-        this.assessment.timer = '00:00' // Reset available time to 0
-        this.calculateScore(this.assessment.total_questions)
       },
 
-      testInitialization() {          
-        this.confirmation_modal.source = 'init'
-        this.confirmation_modal.message = `You are about to begin your test and you have ${this.assessment.timer} minutes for this test.
-        If you are ready, you can continue.`
-        this.confirmation_modal.heading = 'Test Initialization Notice'
-        this.confirmation_modal.action = 'Yes, I am ready'
-        // this.showModal()
+      submitTest() {
+        this.disableSubmission()
+        this.resetCountdown() // Reset available time to 0
+        // this.calculateScore(this.assessment.total_questions)
       },
 
-      autoSubmissionAlert() {          
-        this.confirmation_modal.source = 'submit'
-        this.confirmation_modal.message = `Your time is up and test will be automatically submitted now.`
-        this.confirmation_modal.heading = 'Auto Submission Notice'
-        this.confirmation_modal.action = ''
+      autoSubmit(payload) {
+        this.setAssessmentNotice(payload).autoSubmit()
         this.showModal()
 
         const auto_submission_timeout = setTimeout(() => {
@@ -203,37 +240,45 @@
           clearTimeout(auto_submission_timeout)
         }, 2000)
         const auto_close_modal_timeout = setTimeout(() => {
-          this.confirmation_modal.close = true
+          this.closeModal()
           clearTimeout(auto_close_modal_timeout)
         }, 6000)
+      },
+      // Shuffles sidebar toggler and statuses
+      toggleSideBar(payload) {
+        this.sidebar = {...payload}
       }
     },
 
-    created() {
-      // setTimeout(this.testInitialization, 1000)
+    mounted() {
+      this.initializationNotice(this.confirmation_modal)
     },
 
     watch: {
-      // 'assessment.timer.remaining': {
-      //   handler(oldTimer, newTimer) {
-      //     if (newTimer == '00:01') {
-      //       // this.autoSubmissionAlert()
-      //     }
-      //   }
-      // },
-    //     '$store.state.confirmation_modal.triggered': {
-    //         handler(newAction, oldAction) {
-    //             if (newAction == 'init') {
-    //                 this.fetchQuestions()
-    //                 this.updateTestTimer()
-    //                 this.test.started_at = moment().format()
+      // Watch timer for when coutdown is off
+      'assessment.timer.remaining': {
+        handler(oldTimer, newTimer) {
+          if (newTimer == '00:01') {
+            this.autoSubmit(this.confirmation_modal)
+          }
+        }
+      },
+      // Watch confirmation modal object to know which action just got confirmed
+      '$store.state.confirmation_modal.triggered': {
+        handler(newAction) {
+          // If assessment initialization
+          if (newAction == 'init') {
+            this.fetchQuestions()
+            this.startCountdown()
+            // this.test.started_at = moment().format()
 
-    //             }
-    //             if (newAction == 'submit') {
-    //                 this.submitTest()
-    //             }
-    //         }
-    //     }
+          }
+          // If assessment submission
+          if (newAction == 'submit') {
+            this.submitTest()
+          }
+        }
+      }
     }
 
   }

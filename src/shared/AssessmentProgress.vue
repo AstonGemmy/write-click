@@ -14,6 +14,7 @@
 
 <script>
 export default {
+    name: 'Assessment Progress',
     props: ['questions', 'answers', 'progress'],
     methods: {
         updateAssessmentProgress(payload) {
@@ -34,11 +35,13 @@ export default {
             payload.answered = values.answered
         }
     },
-    created() {
-        this.setAssessmentProgress(this.progress, {
-            total: Object.keys(this.questions).length,
-            answered: 0
-        })
+    mounted() {
+        if (this.questions) {
+            this.setAssessmentProgress(this.progress, {
+                total: Object.keys(this.questions).length,
+                answered: 0
+            })
+        }
     },
     watch: {
       'answers': {

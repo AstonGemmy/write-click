@@ -8,3 +8,13 @@
         </span>
     </a>
 </template>
+
+<script>
+    export default {
+        methods: {
+            logoutUser() {
+                
+            }
+        },
+    }
+</script>

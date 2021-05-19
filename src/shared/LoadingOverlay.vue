@@ -8,16 +8,15 @@
 </template>
 
 <script>
-    import { mapStates } from 'vuex'
+    import { mapState } from 'vuex'
 
     export default {
         computed: {
-            ...mapStates([
+            ...mapState([
                 'isLoading'
             ])
         }
-    }
-    
+    }    
 </script>
 
 <style lang="css">    

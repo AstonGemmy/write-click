@@ -44,6 +44,7 @@
                 }
                 return payload;
             },
+            // Set selected value as array's last element
             setItemUsingKey({payload, target, key}) {
                 payload.forEach(item => {
                     target.push(
@@ -56,7 +57,7 @@
             },
 
         },
-        created() {
+        mounted() {
             this.setItemUsingKey({
                 payload: this.payload,
                 target: this.shuffled_options,

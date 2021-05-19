@@ -9,7 +9,7 @@
 </template>
 
 <script>
-export default {
-    props: ['instructions']
-}
+    export default {
+        props: ['instructions']
+    }
 </script>
