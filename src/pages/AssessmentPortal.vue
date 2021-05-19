@@ -197,7 +197,7 @@
       },
 
       fetchQuestions() {
-        this.assessment.questions = require('../Data/Questions.json')
+        this.assessment.questions = require('../data/Questions.json')
       },
 
       startCountdown() {

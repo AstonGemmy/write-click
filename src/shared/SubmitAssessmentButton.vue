@@ -7,6 +7,7 @@
 <script>
     export default {
         name: 'Assessment Submission Button',
+        emits: ['confirmSubmission'],
         props: ['status'],
         methods: {
             confirmSubmission() {
