@@ -1,7 +1,8 @@
 import { createWebHashHistory, createRouter } from 'vue-router';
 
-import Home from '../pages/Index.vue';
-import AssessmentPortal from '../pages/AssessmentPortal.vue';
+import AssessmentPortal from '../pages/AssessmentPortal';
+import Register from '../pages/Register'
+import Home from '../pages/Index';
 
 const routes = [
   {
@@ -11,8 +12,13 @@ const routes = [
   },
   {
     path: "/assessment-portal",
-    name: "AssessmentPortal",
+    name: "Assessment Portal",
     component: AssessmentPortal
+  },
+  {
+    path: "/register-user",
+    name: "Registration Interface",
+    component: Register
   }
 ];
 

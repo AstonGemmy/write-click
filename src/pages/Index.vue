@@ -7,7 +7,7 @@
           <form @submit.prevent="loginUser" class="rounded-lg p-8 bg-white w-full sm:w-auto shadow">
             <div class="flex mb-8 justify-between">
               <h1 class="text-xl font-bold text-pink-800 my-">
-                Write-Click
+                {{ app_name }}
               </h1>
               <router-link to="/">
                 <i class="fa fa-globe text-xl"></i>
@@ -41,8 +41,9 @@
 
   export default {
 
-    data() {
+    data: () => {
       return {
+        app_name: process.env.VUE_APP_NAME,
         login: {
           username: null,
           password: null
